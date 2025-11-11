@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - Available PC Parts</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="/">Home</a>
+        <a href="/add">Add Part</a>
+        <a href="/admin/orders">Orders</a>
+    </nav>
+
+    <h1>Available PC Parts</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Part Name</th>
+                <th>Price (₱)</th>
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for part in parts %}
+            <tr>
+                <td>{{ part.id }}</td>
+                <td>{{ part.name }}</td>
+                <td>{{ part.price }}</td>
+                <td>{{ part.stock }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <footer>
+        © 2025 PC PARTS RETAIL SYSTEM. All rights reserved.
+    </footer>
+
+</body>
+</html>

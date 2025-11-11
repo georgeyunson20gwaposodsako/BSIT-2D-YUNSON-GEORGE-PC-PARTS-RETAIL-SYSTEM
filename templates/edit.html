@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Part: {{ part.name }}</title>
+    <!-- Load Tailwind CSS and configure (matching index.html) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], },
+                    colors: { 'primary': '#10b981', 'dark-bg': '#0f172a', }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased flex flex-col min-h-screen">
+
+    <!-- Header / Navigation Bar -->
+    <header class="bg-dark-bg text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-tight flex items-center">
+                <i data-lucide="monitor-dot" class="w-6 h-6 mr-3 text-primary"></i>
+                PC Parts Retail System
+            </div>
+            <a href="{{ url_for('index') }}" class="text-sm px-4 py-2 rounded-lg hover:bg-slate-700 transition duration-150">
+                <i data-lucide="layout-dashboard" class="w-5 h-5 inline-block mr-1"></i>
+                Dashboard
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Area: Centered Form -->
+    <main class="flex-grow flex items-center justify-center p-4">
+        <div class="w-full max-w-lg bg-white p-8 sm:p-10 rounded-2xl shadow-2xl">
+            <h1 class="text-3xl font-extrabold text-gray-900 mb-6 flex items-center">
+                <i data-lucide="edit" class="w-7 h-7 mr-3 text-indigo-600"></i>
+                Edit Part: <span class="text-gray-600 ml-2 text-2xl">#{{ part.id }}</span>
+            </h1>
+
+            <!-- Form: POSTs back to the '/edit/<id>' route -->
+            <form method="POST" action="{{ url_for('edit_part', id=part.id) }}">
+
+                <!-- Part Name Input -->
+                <div class="mb-5">
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Part Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="{{ part.name }}"
+                        required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition duration-150"
+                    >
+                </div>
+
+                <!-- Category Dropdown -->
+                <div class="mb-5">
+                    <label for="category" class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                    <div class="relative">
+                        <select
+                            id="category"
+                            name="category"
+                            required
+                            class="appearance-none w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition duration-150 bg-white pr-10"
+                        >
+                            <!-- Jinja logic to pre-select the current category -->
+                            {% set categories = ['Processor', 'Motherboard', 'Memory', 'Storage', 'Graphics Card', 'Power Supply', 'Case', 'Cooling'] %}
+                            {% for cat in categories %}
+                                <option value="{{ cat }}" {% if cat == part.category %} selected {% endif %}>
+                                    {{ cat }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <i data-lucide="chevron-down" class="w-5 h-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+                    </div>
+                </div>
+
+                <!-- Price Input -->
+                <div class="mb-8">
+                    <label for="price" class="block text-sm font-medium text-gray-700 mb-2">Price (₱)</label>
+                    <input
+                        type="number"
+                        id="price"
+                        name="price"
+                        step="0.01"
+                        min="0"
+                        value="{{ part.price }}"
+                        required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition duration-150"
+                    >
+                </div>
+
+                <!-- Submission Buttons -->
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <button
+                        type="submit"
+                        class="flex-grow bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:scale-[1.01] flex items-center justify-center"
+                    >
+                        <i data-lucide="save" class="w-5 h-5 mr-2"></i> Save Changes
+                    </button>
+                    <a
+                        href="{{ url_for('index') }}"
+                        class="flex-grow text-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-xl transition duration-150 flex items-center justify-center"
+                    >
+                         <i data-lucide="x" class="w-5 h-5 mr-2"></i> Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Script to initialize Lucide icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

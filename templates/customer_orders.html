@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Orders | PC Parts Retail System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <h2>🧾 My Orders</h2>
+        <a href="/">Home</a>
+    </div>
+
+    <div class="container">
+        <h1>Your Orders</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Item</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.item }}</td>
+                    <td>
+                        {% if order.status == 'Pending' %}
+                            <span style="color: orange;">Pending</span>
+                        {% elif order.status == 'Completed' %}
+                            <span style="color: green;">Completed</span>
+                        {% else %}
+                            <span style="color: red;">Rejected</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

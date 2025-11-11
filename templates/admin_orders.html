@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Orders | PC Parts Retail System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <h2>🧾 Orders Management</h2>
+        <a href="/">Home</a>
+    </div>
+
+    <div class="container">
+        <h1>Customer Orders</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Customer</th>
+                    <th>Item</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.customer }}</td>
+                    <td>{{ order.item }}</td>
+                    <td>
+                        {% if order.status == 'Pending' %}
+                            <span style="color: orange;">{{ order.status }}</span>
+                        {% elif order.status == 'Completed' %}
+                            <span style="color: green;">{{ order.status }}</span>
+                        {% else %}
+                            <span style="color: red;">{{ order.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if order.status == 'Pending' %}
+                            <a href="{{ url_for('approve_order', order_id=order.id) }}" style="color: green;">Approve</a> |
+                            <a href="{{ url_for('reject_order', order_id=order.id) }}" style="color: red;">Reject</a>
+                        {% else %}
+                            <em>No Action</em>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
